@@ -1,0 +1,72 @@
+{% load static %} {% block body %}
+
+<h5 class="card-title">Dashboard <span>| Feed</span></h5>
+<section>
+	<div class="container">
+		<div class="row d-flex">
+			<div class="col-md-9 col-lg-10 col-xl-8">
+				<div class="card">
+					<div class="card-body">
+						<div class="d-flex flex-start align-items-center">
+							<img class="rounded-circle shadow-1-strong me-3" src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(19).webp" alt="avatar" width="60" height="60" />
+							<div>
+								<h6 class="fw-bold text-primary mb-1">Lily Coleman</h6>
+								<p class="text-muted small mb-0">Share</p>
+							</div>
+						</div>
+
+						<textarea class="form-control" id="textAreaExample" rows="2" style="background: #fff; padding-left: 1em; margin-top: 2px"></textarea>
+						<div class="float-end" style="margin-top: 10px">
+							<button type="button" class="btn btn-primary btn-sm">POST</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			{% comment %} Contact {% endcomment %}
+			<div class="col-md-4">
+				<div class="card info-card sales-card" style="margin-bottom: 22px; margin-right: 0">
+					<div class="filter">
+						<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+						<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+							<li class="dropdown-header text-start">
+								<h6>Filter</h6>
+							</li>
+
+							<li><a class="dropdown-item" href="#">Today</a></li>
+							<li><a class="dropdown-item" href="#">This Month</a></li>
+							<li><a class="dropdown-item" href="#">This Year</a></li>
+						</ul>
+					</div>
+
+					<div class="card-body">
+						<h5 class="card-title">Contact</h5>
+						{% for i in user %}<a href="" data-bs-toggle="tooltip" data-bs-title="username: {{i.username}}">
+							<div class="d-flex align-items-center">
+								<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+									<img src="{%static 'assets/img/default_profile_pic.png'  %}" style="border-radius: 50%; width: 55px; height: 55px" />
+								</div>
+								<div class="ps-3">
+									<h6 style="font-size: 18px">{{i.username}}</h6>
+								</div>
+							</div></a
+						>
+						{% endfor %}
+					</div>
+
+					{% comment %} <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button> {% endcomment %}
+
+					<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+						<div class="toast-header">
+							<img src="{%static 'assets/img/logo.png'  %}" class="rounded me-2" alt="..." />
+							<strong class="me-auto">IShare</strong>
+							<small>11 mins ago</small>
+							<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+						</div>
+						<div class="toast-body">Hello, world! This is a toast message.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

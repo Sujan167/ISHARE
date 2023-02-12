@@ -1,0 +1,171 @@
+{% load static %}
+<section class="section dashboard">
+	<div class="row">
+		<!-- Left side columns -->
+		<div class="col-lg-8">
+			<div class="row">
+				<!-- Sales Card -->
+				<div class="col-12">
+					<div class="card info-card sales-card">
+						<div class="filter">
+							<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+							<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+								<li><a class="dropdown-item" href="#">Today</a></li>
+								<li><a class="dropdown-item" href="#">This Month</a></li>
+								<li><a class="dropdown-item" href="#">This Year</a></li>
+							</ul>
+						</div>
+
+						<div class="card-body">
+							<form method="post">
+								{% csrf_token %}
+
+								<h5 class="card-title">Dashboard <span>| Feed</span></h5>
+
+								<div class="d-flex align-items-center">
+									<div class="card-icon rounded-circle d-flex align-items-center justify-content-center"><img src="{%static 'assets/img/default_profile_pic.png' %}" style="border-radius: 50%; width: 55px; height: 55px;border:1px solid black" /></div>
+									<div class="ps-3">
+										<h6>@{{request.user}}</h6>
+										<span class="text-primary small pt-1 fw-bold">Share</span>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="form-floating" style="padding-right: 27px; padding-bottom: 12px; padding-left: 2%">
+										<textarea class="form-control" id="floatingTextarea" name="newpost" required></textarea>
+										<label for="floatingTextarea">&nbsp&nbspWrite your content here</label>
+									</div>
+									<hr />
+									<div class="col-12">
+										<button class="btn btn-outline-primary" style="float: right" type="submit">Share<i class="bi bi-send-check-fill" style="padding-left: 10px"></i></button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- End Sales Card -->
+
+				<!-- Reports -->
+				<div class="col-12">
+					{% for i in newpost %}
+					<div class="card">
+						<div class="filter rounded">
+							{% if i.username.id == request.user.id%}
+							<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+							<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="unclickable">
+								<li><a class="dropdown-item" href="{% url 'updatePost' i.id%}">Edit</a></li>
+								<li><a class="dropdown-item" href="{% url 'delete-event' i.id%}">Delete</a></li>
+							</ul>
+							{% else %}
+							<style>
+								#unclickable {
+									cursor: not-allowed;
+								}
+							</style>
+							{% endif %}
+						</div>
+
+						<div class="d-flex align-items-center" style="padding: 2%">
+							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+								<img src="{%static 'assets/img/default_profile_pic.png'  %}" style="border-radius: 50%;border:1px solid black; width: 55px; height: 55px" />
+							</div>
+							<div class="ps-3">
+								<strong style="font-size: 18px">@{{i.username}}</strong><br />
+								<small style="margin-top: -7px">{{i.createdTime}}</small>
+
+								{% comment %} <small>Editted at {{i.modifyTime}}</small> {% endcomment %}
+							</div>
+						</div>
+
+						<div class="album-content">
+							<pre style="width: 95%; padding-left: 22px; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word">{{i.postData}}</pre>
+							<div class="album-photos">{% comment %} <img src="{% static 'assets/img/default_profile_pic.png' %}" alt="" class="album-photo" /> {% endcomment %}</div>
+						</div>
+
+						<div class="row" style="background-color: #f8f9fa; margin: 0; padding-left: 5px">
+							<div class="col-2 p-2 d-flex" style="padding-left: 5px"><i class="bi bi-hand-thumbs-up" style="padding-left: 10px"></i>Like <i class="bi bi-chat-dots" style="padding-left: 15px"></i>Comment</div>
+
+							{% comment %}
+							<div class="col" style="padding-left: 6%">
+								<button type="button" class="btn btn-outline-primary" style="width: 100%" data-bs-toggle="button">Like</button>
+							</div>
+							<div class="col" style="padding-right: 6%">
+								<button type="button" style="width: 100%" class="btn btn-outline-secondary">Comment</button>
+							</div>
+							{% endcomment %}
+						</div>
+						<div class="card-footer py-1 border-0" style="background-color: #f8f9fa">
+							<form method="POST">
+								{% csrf_token %}
+								<div class="d-flex flex-start w-100">
+									<img class="rounded-circle shadow-1-strong me-3" src="{%static 'assets/img/default_profile_pic.png'  %}" alt="avatar" width="40" height="40">
+
+									<div class="form-outline w-100">
+										<textarea class="form-control" name="newComment" id="textAreaExample" rows="2" style="background: #fff" required></textarea>
+
+										<a href="{% url 'commentPost' i.id %}"><small class="form-label" for="textAreaExample">View More</small></a>
+									</div>
+								</div>
+								{% comment %}
+								<div class="float-end" style="margin-top: -20px">
+									{% endcomment %}
+									<input name="post_id" value="{{i.id}}" type="hidden" />
+									<button style="margin-top: -5px" type="submit" class="btn btn-primary btn-sm float-end">Post comment</button>
+									{% comment %}
+								</div>
+								{% endcomment %}
+							</form>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+				<!-- End Reports -->
+			</div>
+		</div>
+		<!-- End Left side columns -->
+		<div class="col-md-4">
+			<div class="card info-card sales-card" style="margin-bottom: 22px; margin-right: 0">
+				<div class="filter">
+					<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+					<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+						<li class="dropdown-header text-start">
+							<h6>Filter</h6>
+						</li>
+
+						<li><a class="dropdown-item" href="#">Today</a></li>
+						<li><a class="dropdown-item" href="#">This Month</a></li>
+						<li><a class="dropdown-item" href="#">This Year</a></li>
+					</ul>
+				</div>
+
+				<div class="card-body">
+					<h5 class="card-title">Contact</h5>
+					{% for i in user %}<a href="" data-bs-toggle="tooltip" data-bs-title="username: {{i.username}}">
+						<div class="d-flex align-items-center">
+							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+								<img src="{%static 'assets/img/default_profile_pic.png'  %}" style="border-radius: 50%; width: 55px; height: 55px" />
+							</div>
+							<div class="ps-3">
+								<h6 style="font-size: 18px">{{i.username}}</h6>
+							</div>
+						</div></a
+					>
+					{% endfor %}
+				</div>
+			</div>
+			{% comment %} <button type="button" class="btn btn-primary" id="liveToastBtn">Show live toast</button> {% endcomment %}
+
+			<div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+				<div class="toast-header">
+					<img src="{%static 'assets/img/logo.png'  %}" class="rounded me-2" alt="..." />
+					<strong class="me-auto">IShare</strong>
+					<small>11 mins ago</small>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body">Hello, world! This is a toast message.</div>
+			</div>
+		</div>
+		<!-- Right side columns -->
+	</div>
+</section>

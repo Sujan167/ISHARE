@@ -1,0 +1,53 @@
+{% extends 'App/dashboard.html' %} {% load static %} {% block body %}
+<section class="section dashboard">
+	<div class="row">
+		<div class="col-lg-8">
+			<div class="row">
+				<div class="col-12">
+					<div class="card info-card sales-card">
+						<div class="filter">
+							<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+							<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+								<li><a class="dropdown-item" href="#">Today</a></li>
+								<li><a class="dropdown-item" href="#">This Month</a></li>
+								<li><a class="dropdown-item" href="#">This Year</a></li>
+							</ul>
+						</div>
+
+						<div class="card-body">
+							<form method="post">
+								{% csrf_token %}
+
+								<h5 class="card-title">Dashboard <span>| Edit Post</span></h5>
+
+								<div class="d-flex align-items-center">
+									<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+										<i class="bi bi-cart"></i>
+									</div>
+									<div class="ps-3">
+										<h6>{{request.user}}</h6>
+										<span class="text-success small pt-1 fw-bold">Share</span>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="form-floating" style="margin-left: 16px; padding-right: 27px; padding-bottom: 12px">
+										<textarea class="form-control" style="height: 400px" placeholder="Share Your Content" id="floatingTextarea" name="newpost" required>{{newpost.postData}}</textarea>
+										<label for="floatingTextarea">&nbspEdit Your Post</label>
+									</div>
+									<hr />
+									<div class="col-12 d-flex justify-content-center">
+										<button class="btn btn-outline-primary" style="width: 80%" type="submit">Update<i class="bi bi-send-check-fill" style="padding-left: 10px"></i></button>
+									</div>
+									
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<!-- End Sales Card -->
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}

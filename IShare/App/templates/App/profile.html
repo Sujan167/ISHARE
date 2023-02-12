@@ -1,0 +1,309 @@
+{% extends 'App/dashboard.html' %} {% load static %} {% block body %} {% load socialaccount %}
+<section class="section profile">
+	<div class="row">
+		<div class="col-xl-4">
+			<div class="card">
+				<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+					<img src="{%static 'assets/img/default_profile_pic.png' %}" alt="Profile" class="rounded-circle" />
+					<h2>{{user.username}}</h2>
+					<h3>{{user.email}}</h3>
+					<div class="social-links mt-2">
+						<a href="{{data.githubProfile}}" class="twitter" target="_blank"><i class="bi bi-github"></i></a>
+						{% comment %} <a href="#" class="facebook"><i class="bi bi-facebook"></i></a> <a href="#" class="instagram"><i class="bi bi-instagram"></i></a> {% endcomment %}
+						<a href="{{data.linkedinProfile}}" class="linkedin" target="_blank"><i class="bi bi-linkedin"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-xl-8">
+			<div class="card">
+				<div class="card-body pt-3">
+					<ul class="nav nav-tabs nav-tabs-bordered">
+						<li class="nav-item">
+							<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+						</li>
+
+						<li class="nav-item">
+							<button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+						</li>
+
+						{% comment %}
+						<li class="nav-item">
+							<button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
+						</li>
+						{% endcomment %} {% comment %}
+						<li class="nav-item">
+							<button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+						</li>
+						{% endcomment %}
+					</ul>
+					<div class="tab-content pt-2">
+						<div class="tab-pane fade show active profile-overview" id="profile-overview">
+							<h5 class="card-title">About</h5>
+							<p class="small fst-italic">{{data.about}}</p>
+
+							<h5 class="card-title">Profile Details</h5>
+
+							<div class="row">
+								<div class="col-lg-3 col-md-4 label">Full Name</div>
+								<div class="col-lg-9 col-md-8">{{user.first_name}}&nbsp{{user.last_name}}</div>
+							</div>
+
+							{% comment %}
+							<div class="row">
+								<div class="col-lg-3 col-md-4 label">Company</div>
+								<div class="col-lg-9 col-md-8">Lueilwitz, Wisoky and Leuschke</div>
+							</div>
+							{% endcomment %}
+
+							<div class="row">
+								<div class="col-lg-3 col-md-4 label">Job</div>
+								<div class="col-lg-9 col-md-8">{{data.job}}</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-3 col-md-4 label">Country</div>
+								<div class="col-lg-9 col-md-8">Nepal</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-3 col-md-4 label">Address</div>
+								<div class="col-lg-9 col-md-8">{{data.address}}</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-3 col-md-4 label">Phone</div>
+								<div class="col-lg-9 col-md-8">{{data.phone}}</div>
+							</div>
+
+							<div class="row">
+								<div class="col-lg-3 col-md-4 label">Email</div>
+								<div class="col-lg-9 col-md-8">{{user.email}}</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-3 col-md-4 label">Github Profile</div>
+								<div class="col-lg-9 col-md-8">{{data.githubProfile}}</div>
+							</div>
+							<div class="row">
+								<div class="col-lg-3 col-md-4 label">Linkedin Profile</div>
+								<div class="col-lg-9 col-md-8">{{data.linkedinProfile}}</div>
+							</div>
+						</div>
+						<div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+							<form method="POST">
+								{% csrf_token %}
+								<div class="row mb-3">
+									<label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+									<div class="col-md-8 col-lg-9">
+										<img src="{%static 'assets/img/default_profile_pic.png' %}" alt="Profile" />
+										<div class="pt-2">
+											<a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
+											<a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
+										</div>
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+									<div class="col-md-8 col-lg-9">
+										<input name="username" type="text" class="form-control" id="fullName" value="{{user.first_name}} {{user.last_name}}" />
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label for="about" class="col-md-4 col-lg-3 col-form-label">About</label>
+									<div class="col-md-8 col-lg-9">
+										<textarea name="about" class="form-control" id="about" style="height: 100px" placeholder="Something about yourself">{{data.about}}</textarea>
+									</div>
+								</div>
+
+								{% comment %}
+								<div class="row mb-3">
+									<label for="company" class="col-md-4 col-lg-3 col-form-label">Company</label>
+									<div class="col-md-8 col-lg-9">
+										<input name="company" type="text" class="form-control" id="company" value="Lueilwitz, Wisoky and Leuschke" />
+									</div>
+								</div>
+								{% endcomment %}
+
+								<div class="row mb-3">
+									<label for="Job" class="col-md-4 col-lg-3 col-form-label">Job</label>
+									<div class="col-md-8 col-lg-9">
+										<input name="job" type="text" class="form-control" id="Job" placeholder="Student" value="{{data.job}}" />
+									</div>
+								</div>
+
+								{% comment %}
+								<div class="row mb-3">
+									<label for="Country" class="col-md-4 col-lg-3 col-form-label">Country</label>
+									<div class="col-md-8 col-lg-9">
+										<input name="country" type="text" class="form-control" id="Country" value="USA" />
+									</div>
+								</div>
+								{% endcomment %}
+
+								<div class="row mb-3">
+									<label for="Address" class="col-md-4 col-lg-3 col-form-label">Address</label>
+									<div class="col-md-8 col-lg-9">
+										<input name="address" type="text" class="form-control" id="Address" value="{{data.address}}" />
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label for="Phone" class="col-md-4 col-lg-3 col-form-label">Phone</label>
+									<div class="col-md-8 col-lg-9">
+										<input name="phone" type="text" class="form-control" id="Phone" placeholder="+977 9876543210" value="{{data.phone}}" />
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+									<div class="col-md-8 col-lg-9">
+										<input name="email" type="email" class="form-control" id="Email" value="{{user.email}}" />
+									</div>
+								</div>
+
+								<div class="row mb-3">
+									<label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Github Profile</label>
+									<div class="col-md-8 col-lg-9">
+										<input name="githubProfile" type="text" class="form-control" id="Twitter" placeholder="https://github.com/..." value="{{data.githubProfile}}" />
+									</div>
+								</div>
+
+								{% comment %}
+								<div class="row mb-3">
+									<label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
+									<div class="col-md-8 col-lg-9">
+										<input name="facebook" type="text" class="form-control" id="Facebook" value="https://facebook.com/#" />
+									</div>
+								</div>
+								{% endcomment %} {% comment %}
+								<div class="row mb-3">
+									<label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
+									<div class="col-md-8 col-lg-9">
+										<input name="instagram" type="text" class="form-control" id="Instagram" />
+									</div>
+								</div>
+								{% endcomment %}
+
+								<div class="row mb-3">
+									<label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
+									<div class="col-md-8 col-lg-9">
+										<input name="linkedinProfile" type="text" class="form-control" id="Linkedin" placeholder="https://www.linkedin.com/in/..." value="{{data.linkedinProfile}}" />
+									</div>
+								</div>
+
+								<div class="text-center">
+									<button type="submit" class="btn btn-primary">Save Changes
+										<input type="hidden" name="btnSubmit">
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="section dashboard">
+	<div class="row d-flex justify-content-center">
+		<!-- Left side columns -->
+		<div class="col-lg-9">
+			<div class="row">
+				<!-- Sales Card -->
+				<div class="col-12">
+					<div class="card info-card sales-card">
+						<div class="filter">
+							<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+							<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+								<li><a class="dropdown-item" href="#">Today</a></li>
+								<li><a class="dropdown-item" href="#">This Month</a></li>
+								<li><a class="dropdown-item" href="#">This Year</a></li>
+							</ul>
+						</div>
+
+						<div class="card-body">
+							<form method="post">
+								{% csrf_token %}
+
+								<h5 class="card-title">Dashboard <span>| Profile</span></h5>
+
+								<div class="d-flex align-items-center">
+									<div class="card-icon rounded-circle d-flex align-items-center justify-content-center"><img src="{%static 'assets/img/default_profile_pic.png' %}" style="border-radius: 50%; width: 55px; height: 55px" /></div>
+									<div class="ps-3">
+										<h6>@{{request.user}}</h6>
+										<span class="text-primary small pt-1 fw-bold">Share</span>
+									</div>
+								</div>
+
+								<div class="row">
+									<div class="form-floating" style="padding-right: 27px; padding-bottom: 12px; padding-left: 2%">
+										<textarea class="form-control" id="floatingTextarea" name="newpost" required></textarea>
+										<label for="floatingTextarea">&nbsp&nbspWrite your content here</label>
+									</div>
+									<hr />
+									<div class="col-12 d-flex justify-content-center">
+										<button class="btn btn-outline-primary" style="width: 80%" type="submit">Share<i class="bi bi-send-check-fill" style="padding-left: 10px"></i></button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-12">
+					{% for i in newpost %}
+					<div class="card">
+						<div class="filter rounded">
+							<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+							{% if i.username.id == request.user.id%}
+							<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" id="unclickable">
+								<li><a class="dropdown-item" href="{% url 'updatePost' i.id%}">Edit</a></li>
+								<li><a class="dropdown-item" href="{% url 'delete-event' i.id%}">Delete</a></li>
+							</ul>
+							{% else %}
+							<style>
+								#unclickable {
+									cursor: not-allowed;
+								}
+							</style>
+							{% endif %}
+						</div>
+
+						<div class="d-flex align-items-center" style="padding: 2%">
+							<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+								<img src="{%static 'assets/img/default_profile_pic.png'  %}" style="border-radius: 50%; width: 55px; height: 55px" />
+							</div>
+							<div class="ps-3">
+								<strong style="font-size: 18px">@{{i.username}}</strong><br />
+								<small style="margin-top: -7px">{{i.createdTime}}</small>
+
+								{% comment %} <small>Editted at {{i.modifyTime}}</small> {% endcomment %}
+							</div>
+						</div>
+
+						<div class="album-content">
+							<pre style="width: 95%; padding-left: 22px; white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word">{{i.postData}}</pre>
+							<div class="album-photos">{% comment %} <img src="{% static 'assets/img/default_profile_pic.png' %}" alt="" class="album-photo" /> {% endcomment %}</div>
+						</div>
+						<hr />
+						<div class="row pb-2 d-flex justify-content-evenly">
+							<div class="col" style="padding-left: 6%">
+								<button type="button" class="btn btn-outline-primary" style="width: 100%" data-bs-toggle="button">Like</button>
+							</div>
+							<div class="col" style="padding-right: 6%">
+								<button type="button" style="width: 100%" class="btn btn-outline-secondary">Comment</button>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+				</div>
+				<!-- End Reports -->
+			</div>
+		</div>
+		<!-- End Left side columns -->
+	</div>
+</section>
+{% endblock %}
